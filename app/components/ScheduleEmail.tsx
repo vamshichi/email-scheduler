@@ -52,14 +52,14 @@ export default function ScheduleEmail() {
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Message"
         required
-        className="w-full px-3 py-2 text-black-700 border rounded-md"
+        className="w-full px-3 py-2 text-black-700 border rounded-md text-black"
       />
       <input
         type="datetime-local"
         value={dateTime}
         onChange={(e) => setDateTime(e.target.value)}
         required
-        className="w-full px-3 py-2 border rounded-md"
+        className="w-full px-3 py-2 border rounded-md text-black"
       />
       <button
         type="submit"
