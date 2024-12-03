@@ -14,7 +14,7 @@ export default function ScheduleEmail() {
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const [dateTime, setDateTime] = useState('')
-  const [results, setResults] = useState<EmailCheckResults | null>(null) // Define the type here
+  const [results, setResults] = useState<EmailCheckResults | null>(null) // Removed if unused
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,7 +75,7 @@ export default function ScheduleEmail() {
         Schedule Email
       </button>
 
-      {/* Optional: Displaying results */}
+      {/* Optional: Displaying results if used */}
       {results && (
         <div>
           <p>Total emails: {results.total}</p>

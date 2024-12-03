@@ -2,12 +2,20 @@
 
 import { useState, useCallback } from 'react'
 
+// Define a type for results, assuming the structure includes email stats
+interface EmailCheckResults {
+  total: number
+  valid: number
+  invalid: number
+  undeliverable: number
+}
+
 export default function EmailChecker() {
   const [file, setFile] = useState<File | null>(null)
-  const [results, setResults] = useState<any>(null)
+  const [results, setResults] = useState<EmailCheckResults | null>(null) // Replace any with a specific type
   const [progress, setProgress] = useState(0)
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)  // Keeping the error state
+  const [error, setError] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +77,7 @@ export default function EmailChecker() {
       }
     } catch (error) {
       console.error('Error:', error)
-      setError(error instanceof Error ? error.message : 'An error occurred while processing the file')  // Use the error
+      setError(error instanceof Error ? error.message : 'An error occurred while processing the file')
     } finally {
       setIsProcessing(false)
     }
@@ -135,3 +143,4 @@ export default function EmailChecker() {
     </div>
   )
 }
+
