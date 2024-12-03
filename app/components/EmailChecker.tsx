@@ -2,9 +2,17 @@
 
 import { useState, useCallback } from 'react'
 
+interface EmailCheckResults {
+  total: number;
+  valid: number;
+  invalid: number;
+  undeliverable: number;
+  downloadUrl?: string;
+}
+
 export default function EmailChecker() {
   const [file, setFile] = useState<File | null>(null)
-  const [results, setResults] = useState<any>(null)
+  const [results, setResults] = useState<EmailCheckResults | null>(null)
   const [progress, setProgress] = useState(0)
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -135,4 +143,3 @@ export default function EmailChecker() {
     </div>
   )
 }
-

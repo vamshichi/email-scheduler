@@ -31,17 +31,14 @@ export async function POST(request: Request) {
     // Log the error
     if (error instanceof Error) {
       console.error('Error in sendEmails API:', error.message);
-      return NextResponse.json(
-        { error: 'Failed to send emails. Please try again later.' },
-        { status: 500 }
-      );
     } else {
-      // For unexpected errors
       console.error('Unexpected error:', error);
-      return NextResponse.json(
-        { error: 'An unknown error occurred.' },
-        { status: 500 }
-      );
     }
+
+    // Send response back to the client
+    return NextResponse.json(
+      { error: 'Failed to send emails. Please try again later.' },
+      { status: 500 }
+    );
   }
 }
