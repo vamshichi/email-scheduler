@@ -1,4 +1,5 @@
 // app/page.tsx
+import EmailChecker from './components/EmailChecker'
 import ScheduleEmail from './components/ScheduleEmail'
 import SendEmails from './components/SendEmails'
 
@@ -10,7 +11,7 @@ export default function Home() {
       <ScheduleEmail />
       
     </main>
-    <SendEmails />
+    <EmailChecker />
     </>
   )
 }

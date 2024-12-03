@@ -1,9 +1,6 @@
 import nodemailer from 'nodemailer';
 
 interface EmailData {
-  subject: string;
-  headline: string;
-  imageUrl: string;
   message: string;
   emailList: string[];
 }
@@ -12,7 +9,10 @@ interface SendBulkEmailsResponse {
   sentCount: number;
 }
 
-export async function sendBulkEmails({ subject, headline, imageUrl, message, emailList }: EmailData): Promise<SendBulkEmailsResponse> {
+export async function sendBulkEmails({
+  message,
+  emailList,
+}: EmailData): Promise<SendBulkEmailsResponse> {
   try {
     // Create a nodemailer transporter using Gmail's SMTP
     const transporter = nodemailer.createTransport({
@@ -23,21 +23,14 @@ export async function sendBulkEmails({ subject, headline, imageUrl, message, ema
       },
     });
 
-    // Prepare the HTML email content
-    const htmlMessage = `
-      <h1>${headline}</h1>
-      <img src="${imageUrl}" alt="Email Banner" style="max-width:100%;height:auto;" />
-      <p>${message}</p>
-    `;
-
     // Send emails to all recipients in the emailList
     const results = await Promise.all(
       emailList.map((email) =>
         transporter.sendMail({
-          from: `"Bulk Sender" <${process.env.EMAIL_USER}>`,
+          from: `"India Property Show" <${process.env.EMAIL_USER}>`,
           to: email,
-          subject: subject,
-          html: htmlMessage,
+          subject: 'Event Invitation from Maxpo Exhibitions',
+          html: message, // Use the provided HTML message
         })
       )
     );
@@ -46,6 +39,12 @@ export async function sendBulkEmails({ subject, headline, imageUrl, message, ema
     return { sentCount: results.length };
   } catch (error) {
     console.error('Error sending emails:', error);
-    throw new Error('Error sending bulk emails');
+
+    // Detailed error handling
+    if (error instanceof Error) {
+      throw new Error(`Error sending bulk emails: ${error.message}`);
+    } else {
+      throw new Error('Error sending bulk emails');
+    }
   }
 }

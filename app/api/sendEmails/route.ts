@@ -1,15 +1,47 @@
 import { NextResponse } from 'next/server';
 import { sendBulkEmails } from '@/app/actions/sendBulkEmails';
 
+type EmailData = { 
+  subject: string;
+  imageUrl: string;
+  message: string;
+  emailList: string[];
+};
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { subject, headline, imageUrl, message, emailList } = body;
+    const body: EmailData = await request.json();
+    const { message, emailList } = body;
 
-    const response = await sendBulkEmails({ subject, headline, imageUrl, message, emailList });
+    // Ensure that the request body has a valid emailList
+    if (!Array.isArray(emailList) || emailList.length === 0) {
+      return NextResponse.json(
+        { error: 'Email list cannot be empty.' },
+        { status: 400 }
+      );
+    }
+
+    // Proceed with sending emails
+    const response = await sendBulkEmails({ message, emailList });
+
+    // Return a success response with the count of emails sent
     return NextResponse.json(response, { status: 200 });
+    
   } catch (error) {
-    console.error('API Error:', error);
-    return NextResponse.json({ error: 'Failed to send emails.' }, { status: 500 });
+    // Log the error
+    if (error instanceof Error) {
+      console.error('Error in sendEmails API:', error.message);
+      return NextResponse.json(
+        { error: 'Failed to send emails. Please try again later.' },
+        { status: 500 }
+      );
+    } else {
+      // For unexpected errors
+      console.error('Unexpected error:', error);
+      return NextResponse.json(
+        { error: 'An unknown error occurred.' },
+        { status: 500 }
+      );
+    }
   }
 }
