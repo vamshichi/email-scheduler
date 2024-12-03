@@ -14,7 +14,7 @@ export default function ScheduleEmail() {
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const [dateTime, setDateTime] = useState('')
-  const [results, setResults] = useState<EmailCheckResults | null>(null) // Removed if unused
+  const [results] = useState<EmailCheckResults | null>(null) // Removed if unused
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
